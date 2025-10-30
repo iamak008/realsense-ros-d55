@@ -109,6 +109,19 @@ static const rmw_qos_profile_t rmw_qos_profile_latched =
     false
 };
 
+static const rmw_qos_profile_t rmw_qos_profile_reliable =
+{
+    RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+    10,
+    RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+    RMW_QOS_POLICY_DURABILITY_VOLATILE,
+    RMW_QOS_DEADLINE_DEFAULT,
+    RMW_QOS_LIFESPAN_DEFAULT,
+    RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+    RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+    false
+};
+
 const rmw_qos_profile_t qos_string_to_qos(std::string str)
 {
     if (str == "UNKNOWN")
@@ -125,6 +138,8 @@ const rmw_qos_profile_t qos_string_to_qos(std::string str)
         return rmw_qos_profile_parameters;
     if (str == "SENSOR_DATA")
         return rmw_qos_profile_sensor_data;
+    if (str == "RELIABLE")
+        return rmw_qos_profile_reliable;
     throw std::runtime_error("Unknown QoS string " + str);
 }
 
@@ -137,7 +152,8 @@ const std::string list_available_qos_strings()
         << "PARAMETER_EVENTS" << "\n"
         << "SERVICES_DEFAULT" << "\n"
         << "PARAMETERS" << "\n"
-        << "SENSOR_DATA";
+        << "SENSOR_DATA" << "\n"
+        << "RELIABLE";
     return res.str();
 }
 
@@ -154,4 +170,4 @@ std::string vectorToJsonString(const std::vector<uint8_t>& vec) {
     return oss.str();
 }
 
-}
+} // namespace realsense2_camera
